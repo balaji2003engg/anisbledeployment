@@ -1,0 +1,22 @@
+---
+- host: appservers
+  task:
+    - name: Create install directory
+      file:
+        state: directory
+        path: /opt/tomcat/webaaps
+        owner: tomcat
+        group: tomcat
+        mode: 0755
+    - name : stop the tomcat
+      shell: systemctl stop tomcat
+      
+    - name: Copy files to remote host
+      copy:
+        src: files/my-application
+        dest: /opt/tomcat/webapps
+        owner: tomcat
+        group: tomcat
+        mode: 0755
+   - name: start the tomcat
+     shell: systemctl start tomcat
